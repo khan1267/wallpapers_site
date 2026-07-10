@@ -1,0 +1,66 @@
+[
+  {
+    "id": "wp_1",
+    "title": "Neon Cyberpunk Skyline",
+    "category": "Sci-Fi",
+    "tags": [
+      "cyberpunk",
+      "neon",
+      "city",
+      "futuristic",
+      "4k"
+    ],
+    "filename": "cyberpunk_skyline.png",
+    "dimensions": "1920x1080",
+    "fileSize": "2.4 MB",
+    "uploadDate": "2026-07-10T12:00:00.000Z",
+    "downloads": 6
+  },
+  {
+    "id": "wp_2",
+    "title": "Retro City Lights",
+    "category": "Abstract",
+    "tags": [
+      "retro",
+      "neon",
+      "city",
+      "dark"
+    ],
+    "filename": "neon_city.png",
+    "dimensions": "1920x1080",
+    "fileSize": "2.4 MB",
+    "uploadDate": "2026-07-10T12:01:00.000Z",
+    "downloads": 12
+  },
+  {
+    "id": "wp_3",
+    "title": "Rainy Street Reflection",
+    "category": "Nature",
+    "tags": [
+      "rain",
+      "street",
+      "reflection",
+      "gloomy"
+    ],
+    "filename": "rainy_streets.png",
+    "dimensions": "1920x1080",
+    "fileSize": "2.4 MB",
+    "uploadDate": "2026-07-10T12:02:00.000Z",
+    "downloads": 8
+  },
+  {
+    "id": "wp_1783668124284",
+    "title": "Space Horizon",
+    "category": "Space",
+    "tags": [
+      "space",
+      "nebula",
+      "galaxy"
+    ],
+    "filename": "wallpaper-1783668122945-861834108.png",
+    "dimensions": "3840x2160",
+    "fileSize": "1.1 MB",
+    "uploadDate": "2026-07-10T07:22:04.284Z",
+    "downloads": 1
+  }
+]

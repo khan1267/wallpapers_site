@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VividWall | Premium Wallpaper Hub</title>
+  <meta name="description" content="Discover and download high-resolution desktop wallpapers. Upload and save your own wallpaper collection locally.">
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="app-header" id="appHeader">
+    <div class="header-container">
+      <div class="logo" id="appLogo">
+        <i class="fa-solid fa-wand-magic-sparkles logo-icon"></i>
+        <span>Vivid<span class="logo-accent">Wall</span></span>
+      </div>
+
+      <div class="search-bar-container">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search wallpapers by name or tags...">
+      </div>
+
+      <div class="header-actions">
+        <div class="sort-wrapper">
+          <label for="sortBySelect" class="sr-only">Sort by</label>
+          <select id="sortBySelect" title="Sort wallpapers">
+            <option value="latest">Latest Releases</option>
+            <option value="downloads">Most Popular</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="btnOpenUpload">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>Upload</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Category Bar -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Elevate Your Screen Aesthetic</h1>
+      <p class="hero-subtitle">High-resolution wallpapers curated for your local setup.</p>
+    </div>
+    
+    <!-- Category Pill Filters -->
+    <div class="categories-bar" id="categoriesBar">
+      <button class="category-pill active" data-category="All">All</button>
+      <button class="category-pill" data-category="Sci-Fi">Sci-Fi</button>
+      <button class="category-pill" data-category="Nature">Nature</button>
+      <button class="category-pill" data-category="Abstract">Abstract</button>
+      <button class="category-pill" data-category="Minimalist">Minimalist</button>
+      <button class="category-pill" data-category="Space">Space</button>
+      <button class="category-pill" data-category="Anime">Anime</button>
+      <button class="category-pill" data-category="Architecture">Architecture</button>
+    </div>
+  </section>
+
+  <!-- Main Wallpapers Section -->
+  <main class="main-content">
+    <div class="grid-header">
+      <h2 id="sectionTitle" class="section-title">Latest Wallpapers</h2>
+      <div class="results-count" id="resultsCount">0 wallpapers</div>
+    </div>
+
+    <!-- Wallpaper Cards Grid -->
+    <div class="wallpaper-grid" id="wallpaperGrid">
+      <!-- Loading Skeletons will go here dynamically -->
+    </div>
+
+    <!-- No Results Placeholder -->
+    <div class="no-results" id="noResults" style="display: none;">
+      <i class="fa-solid fa-image-slash empty-icon"></i>
+      <h3>No wallpapers found</h3>
+      <p>Try refining your search terms or select another category.</p>
+    </div>
+  </main>
+
+  <!-- Wallpaper Details Modal -->
+  <div class="modal" id="detailsModal">
+    <div class="modal-overlay" id="detailsOverlay"></div>
+    <div class="modal-container details-container">
+      <button class="modal-close" id="btnCloseDetails" aria-label="Close modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      
+      <div class="details-content">
+        <!-- Left Side: Image Preview -->
+        <div class="details-preview-container">
+          <img src="" alt="Wallpaper Preview" id="modalImage">
+        </div>
+        
+        <!-- Right Side: Metadata and Actions -->
+        <div class="details-info-container">
+          <div>
+            <span class="category-badge" id="modalCategory">Sci-Fi</span>
+            <h2 class="details-title" id="modalTitle">Neon Cyberpunk Skyline</h2>
+            <div class="tags-container" id="modalTags">
+              <!-- Tags rendered dynamically -->
+            </div>
+          </div>
+          
+          <div class="metadata-grid">
+            <div class="meta-item">
+              <span class="meta-label">Resolution</span>
+              <span class="meta-value" id="modalResolution">1920 x 1080</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">File Size</span>
+              <span class="meta-value" id="modalSize">2.4 MB</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Uploaded On</span>
+              <span class="meta-value" id="modalDate">July 10, 2026</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Downloads</span>
+              <span class="meta-value" id="modalDownloads"><i class="fa-solid fa-download"></i> 15</span>
+            </div>
+          </div>
+          
+          <div class="actions-container">
+            <a href="#" class="btn btn-download-large" id="btnDownloadWallpaper">
+              <i class="fa-solid fa-circle-down"></i>
+              <span>Download High-Res</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Wallpaper Modal -->
+  <div class="modal" id="uploadModal">
+    <div class="modal-overlay" id="uploadOverlay"></div>
+    <div class="modal-container upload-container">
+      <button class="modal-close" id="btnCloseUpload" aria-label="Close modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="upload-content">
+        <h2 class="upload-title">Upload New Wallpaper</h2>
+        <p class="upload-subtitle">Share your wallpaper. It will be saved directly in `F:\Antigravity`.</p>
+
+        <form id="uploadForm" class="upload-form">
+          <!-- Hidden Dimension Inputs -->
+          <input type="hidden" name="dimensions" id="uploadDimensions" value="Unknown">
+
+          <div class="form-grid">
+            <!-- Left Side: File Dropzone -->
+            <div class="dropzone-area" id="dropzoneArea">
+              <input type="file" id="fileInput" name="wallpaperFile" accept="image/*" required class="sr-only">
+              <div class="dropzone-prompt" id="dropzonePrompt">
+                <i class="fa-solid fa-images dropzone-icon"></i>
+                <p class="dropzone-text-main">Drag & drop your wallpaper or <span>browse</span></p>
+                <p class="dropzone-text-sub">Supports PNG, JPG, JPEG, WEBP, GIF (Max 25MB)</p>
+              </div>
+              <div class="dropzone-preview" id="dropzonePreview" style="display: none;">
+                <img src="" alt="Upload Preview" id="uploadImgPreview">
+                <button type="button" class="btn-remove-preview" id="btnRemovePreview">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Side: Fields -->
+            <div class="fields-area">
+              <div class="form-group">
+                <label for="uploadTitle">Wallpaper Title</label>
+                <input type="text" id="uploadTitle" name="title" required placeholder="Enter a descriptive title">
+              </div>
+
+              <div class="form-group">
+                <label for="uploadCategory">Category</label>
+                <select id="uploadCategory" name="category" required>
+                  <option value="" disabled selected>Select category</option>
+                  <option value="Sci-Fi">Sci-Fi</option>
+                  <option value="Nature">Nature</option>
+                  <option value="Abstract">Abstract</option>
+                  <option value="Minimalist">Minimalist</option>
+                  <option value="Space">Space</option>
+                  <option value="Anime">Anime</option>
+                  <option value="Architecture">Architecture</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="uploadTags">Tags (Comma-separated)</label>
+                <input type="text" id="uploadTags" name="tags" placeholder="cyberpunk, neon, background">
+              </div>
+
+              <div class="upload-info-box" id="uploadMetaInfo" style="display: none;">
+                <div><i class="fa-solid fa-circle-info"></i> <strong>File Details Detected:</strong></div>
+                <div class="upload-meta-line">Size: <span id="metaInfoSize">-</span> | Resolution: <span id="metaInfoResolution">-</span></div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-submit-upload" id="btnSubmitUpload">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span>Publish Wallpaper</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <p>&copy; 2026 VividWall. Saved locally at <code>F:\Antigravity</code></p>
+      <div class="footer-badge">
+        <i class="fa-solid fa-circle-check"></i> Local Storage Active
+      </div>
+    </div>
+  </footer>
+
+  <!-- Custom Script -->
+  <script src="app.js"></script>
+</body>
+</html>
