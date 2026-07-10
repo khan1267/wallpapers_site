@@ -5,31 +5,31 @@
 :root {
   --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
-  /* Color Palette (Sleek Dark Theme) */
-  --bg-main: #0a0b10;
-  --bg-card: #121420;
-  --bg-card-hover: #1b1e30;
-  --bg-header: rgba(10, 11, 16, 0.75);
+  /* Color Palette (Netflix-Inspired Sleek Theme) */
+  --bg-main: #141414; /* Netflix Main Black */
+  --bg-card: #181818; /* Dark Grey Cards */
+  --bg-card-hover: #222222;
+  --bg-header: rgba(20, 20, 20, 0.85);
   
-  --primary: #7c3aed; /* Vibrant Purple */
-  --primary-hover: #6d28d9;
-  --primary-glow: rgba(124, 58, 237, 0.35);
+  --primary: #e50914; /* Netflix Red */
+  --primary-hover: #b81d24;
+  --primary-glow: rgba(229, 9, 20, 0.35);
   
-  --accent: #06b6d4; /* Electric Cyan */
-  --accent-hover: #0891b2;
-  --accent-glow: rgba(6, 182, 212, 0.35);
+  --accent: #f40612; /* Bright Red */
+  --accent-hover: #ff1f2a;
+  --accent-glow: rgba(244, 6, 18, 0.35);
   
   --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
+  --text-secondary: #a3a3a3;
+  --text-muted: #737373;
   
   --border-color: rgba(255, 255, 255, 0.08);
-  --border-color-focus: rgba(124, 58, 237, 0.5);
-  --border-glow: 0 0 10px rgba(124, 58, 237, 0.2);
+  --border-color-focus: rgba(229, 9, 20, 0.6);
+  --border-glow: 0 0 10px rgba(229, 9, 20, 0.25);
   
   --glass-bg: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(255, 255, 255, 0.06);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
   
   --transition-fast: 0.2s ease;
   --transition-normal: 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -72,13 +72,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #25283c;
+  background: #2b2b2b;
   border-radius: var(--border-radius-pill);
   border: 2px solid var(--bg-main);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #373c5c;
+  background: #404040;
 }
 
 /* Accessibility screen reader helper */
@@ -131,7 +131,7 @@ a {
   font-size: 24px;
   font-weight: 800;
   letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #fff 40%, #c084fc 100%);
+  background: linear-gradient(135deg, #fff 40%, #fecaca 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   cursor: pointer;
@@ -257,7 +257,7 @@ a {
   margin: 0 auto;
   padding: 140px 40px 30px;
   text-align: center;
-  background: radial-gradient(circle at top center, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
+  background: radial-gradient(circle at top center, rgba(229, 9, 20, 0.08) 0%, transparent 50%);
 }
 
 .hero-content {
@@ -270,7 +270,7 @@ a {
   letter-spacing: -1.5px;
   margin-bottom: 12px;
   line-height: 1.15;
-  background: linear-gradient(180deg, #ffffff 40%, #e9d5ff 100%);
+  background: linear-gradient(180deg, #ffffff 40%, #fecaca 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
