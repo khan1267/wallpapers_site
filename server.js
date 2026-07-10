@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs').promises;
 const cors = require('cors');
+const db = require('./db'); // Import our hybrid database layer
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,8 +14,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Path definitions
-const DATA_DIR = path.join(__dirname, 'data');
-const DB_PATH = path.join(DATA_DIR, 'database.json');
 const WALLPAPERS_DIR = path.join(__dirname, 'wallpapers');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
@@ -54,42 +53,14 @@ const upload = multer({
   limits: { fileSize: 25 * 1024 * 1024 } // 25 MB max limit
 });
 
-// Helper: Read database.json
-async function readDb() {
-  try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    try {
-      const data = await fs.readFile(DB_PATH, 'utf8');
-      return JSON.parse(data);
-    } catch (err) {
-      if (err.code === 'ENOENT') {
-        // Initialize if not exists
-        await fs.writeFile(DB_PATH, JSON.stringify([]));
-        return [];
-      }
-      throw err;
-    }
-  } catch (err) {
-    console.error('Error reading DB:', err);
-    return [];
-  }
-}
-
-// Helper: Write database.json
-async function writeDb(data) {
-  try {
-    await fs.writeFile(DB_PATH, JSON.stringify(data, null, 2));
-  } catch (err) {
-    console.error('Error writing DB:', err);
-  }
-}
+// Database helper methods are delegated to db.js
 
 // --- API ROUTES ---
 
 // 1. Get all wallpapers (with search, category, sort)
 app.get('/api/wallpapers', async (req, res) => {
   try {
-    const wallpapers = await readDb();
+    const wallpapers = await db.getWallpapers();
     const { category, search, sortBy } = req.query;
     let filtered = [...wallpapers];
 
@@ -135,8 +106,6 @@ app.post('/api/wallpapers', upload.single('wallpaperFile'), async (req, res) => 
       return res.status(400).json({ error: 'Title and Category are required.' });
     }
 
-    const db = await readDb();
-
     // Format tags from comma separated list
     const tagsArray = tags 
       ? tags.split(',').map(tag => tag.trim().toLowerCase()).filter(Boolean) 
@@ -163,8 +132,7 @@ app.post('/api/wallpapers', upload.single('wallpaperFile'), async (req, res) => 
       downloads: 0
     };
 
-    db.push(newWallpaper);
-    await writeDb(db);
+    await db.addWallpaper(newWallpaper);
 
     res.status(201).json(newWallpaper);
   } catch (error) {
@@ -176,14 +144,13 @@ app.post('/api/wallpapers', upload.single('wallpaperFile'), async (req, res) => 
 // 3. Download wallpaper (Increments counter and triggers file download)
 app.get('/api/wallpapers/download/:id', async (req, res) => {
   try {
-    const db = await readDb();
-    const wpIndex = db.findIndex(wp => wp.id === req.params.id);
+    const wallpapers = await db.getWallpapers();
+    const wp = wallpapers.find(w => w.id === req.params.id);
 
-    if (wpIndex === -1) {
+    if (!wp) {
       return res.status(404).send('Wallpaper not found');
     }
 
-    const wp = db[wpIndex];
     const filePath = path.join(WALLPAPERS_DIR, wp.filename);
 
     try {
@@ -193,8 +160,7 @@ app.get('/api/wallpapers/download/:id', async (req, res) => {
     }
 
     // Increment downloads count and save DB
-    db[wpIndex].downloads += 1;
-    await writeDb(db);
+    await db.incrementDownloads(wp.id);
 
     // Prompt browser download
     res.download(filePath, `${wp.title.replace(/[^a-zA-Z0-9]/g, '_')}${path.extname(wp.filename)}`);
@@ -204,7 +170,14 @@ app.get('/api/wallpapers/download/:id', async (req, res) => {
   }
 });
 
-// Server listener
-app.listen(PORT, () => {
-  console.log(`Wallpaper server running at http://localhost:${PORT}`);
+// Initialize database first then listen
+db.initDb().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Wallpaper server running at http://localhost:${PORT}`);
+  });
+}).catch(err => {
+  console.error('Database initialization failed:', err);
+  app.listen(PORT, () => {
+    console.log(`Wallpaper server running at http://localhost:${PORT} (fallback mode)`);
+  });
 });
