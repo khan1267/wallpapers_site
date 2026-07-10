@@ -415,4 +415,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, 3500);
   }
+
+  // Set environment-aware footer status
+  const footerText = document.getElementById('footerText');
+  const footerStatus = document.getElementById('footerStatus');
+  if (footerText && footerStatus) {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      footerText.innerHTML = `&copy; 2026 VividWall. Saved locally at <code>F:\\Antigravity</code>`;
+      footerStatus.innerHTML = `<i class="fa-solid fa-circle-check"></i> Local Storage Active`;
+      footerStatus.style.color = '#10b981';
+    } else {
+      footerText.innerHTML = `&copy; 2026 VividWall. Deployed on Vercel`;
+      footerStatus.innerHTML = `<i class="fa-solid fa-cloud"></i> Serverless Mode Active`;
+      footerStatus.style.color = '#38bdf8';
+    }
+  }
 });
